@@ -4,10 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#ff0000",
-        "primary-dark": "#cc0000",
-        "primary-soft": "#fff1f1",
-        "primary-border": "#f3b3b3",
+        primary: "#ab2622",
+        "primary-dark": "#8f1f1c",
+        "primary-soft": "#fdeaea",
+        "primary-border": "#efb5b3",
       },
       boxShadow: {
         card: "0 20px 40px rgba(17, 24, 39, 0.08)",
@@ -21,16 +21,24 @@ export default {
           "0%": { transform: "scale(0.98)", opacity: "0.6" },
           "100%": { transform: "scale(1)", opacity: "1" },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "20%": { transform: "translateX(-4px)" },
+          "40%": { transform: "translateX(4px)" },
+          "60%": { transform: "translateX(-3px)" },
+          "80%": { transform: "translateX(3px)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s ease-out both",
         "soft-pop": "soft-pop 0.25s ease-out both",
+        shake: "shake 0.6s ease-in-out infinite",
       },
       borderRadius: {
         xl2: "22px",
       },
       fontFamily: {
-        sans: ["Poppins", "system-ui", "sans-serif"],
+        sans: ["Manrope", "system-ui", "sans-serif"],
       },
     },
   },

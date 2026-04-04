@@ -1,4 +1,4 @@
-import QuantitySelector from "./QuantitySelector.jsx";
+﻿import QuantitySelector from "./QuantitySelector.jsx";
 import { formatPrice } from "../services/whatsapp.js";
 
 export default function Cart({
@@ -9,8 +9,6 @@ export default function Cart({
   isOpen,
   onClose,
   onRemoveItem,
-  customerName,
-  onCustomerNameChange,
   variant = "desktop",
 }) {
   const isMobile = variant === "mobile";
@@ -18,39 +16,33 @@ export default function Cart({
     <aside
       className={
         isMobile
-          ? "fixed inset-0 z-30 h-screen w-screen overflow-auto bg-white p-6 shadow-card"
-          : "rounded-[22px] bg-white/90 p-6 shadow-card backdrop-blur"
+          ? "fixed inset-0 z-30 h-screen w-screen overflow-auto bg-white shadow-card"
+          : "rounded-[22px] border border-slate-100 bg-white/95 p-6 shadow-[0_18px_36px_rgba(15,23,42,0.1)] backdrop-blur"
       }
     >
-      <div className="flex items-center justify-between pb-2">
-        <div className="flex items-center gap-2">
-          <h2 className="text-xl font-semibold text-slate-900">Resumen</h2>
+      <div className={isMobile ? "sticky top-0 z-10 bg-white px-6 pb-3 pt-5 shadow-[0_10px_20px_rgba(0,0,0,0.04)]" : "pb-2"}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-semibold text-slate-900">Resumen</h2>
+          </div>
+          {isMobile && (
+            <button
+              className="text-2xl text-slate-400 hover:text-slate-600"
+              type="button"
+              onClick={onClose}
+            >
+              ×
+            </button>
+          )}
         </div>
-        {isMobile && (
-          <button
-            className="text-2xl text-slate-400 hover:text-slate-600"
-            type="button"
-            onClick={onClose}
-          >
-            ×
-          </button>
-        )}
       </div>
-      <label className="grid gap-2 text-sm text-slate-500">
-        <span>Nombre del cliente</span>
-        <input
-          type="text"
-          value={customerName}
-          onChange={(event) => onCustomerNameChange(event.target.value)}
-          placeholder="Ej: Juan Perez"
-          className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10"
-        />
-      </label>
 
       {cart.length === 0 ? (
-        <p className="pt-1 text-sm text-slate-400">Tu carrito está vacío.</p>
+        <p className={isMobile ? "px-6 pt-4 text-sm text-slate-400" : "pt-2 text-sm text-slate-400"}>
+          Tu carrito está vacío.
+        </p>
       ) : (
-        <div className="grid gap-3 pt-1">
+        <div className={isMobile ? "grid gap-3 px-6 pt-4" : "grid gap-3 pt-3"}>
           {cart.map((item) => (
             <div
               key={item.key}
@@ -65,13 +57,15 @@ export default function Cart({
                   {formatPrice(item.precio)}
                 </span>
               </div>
-              <QuantitySelector
-                value={item.cantidad}
-                onChange={(value) => onUpdateItem(item.key, value)}
-                min={1}
-              />
+              {item.allowQuantity === true ? (
+                <QuantitySelector
+                  value={item.cantidad}
+                  onChange={(value) => onUpdateItem(item.key, value)}
+                  min={1}
+                />
+              ) : null}
               <button
-                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500 transition hover:border-primary hover:text-primary"
+                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500 transition hover:border-primary/50 hover:text-primary"
                 type="button"
                 onClick={() => onRemoveItem(item.key)}
               >
@@ -84,20 +78,28 @@ export default function Cart({
           ))}
         </div>
       )}
-      <div className="grid gap-4 pt-2">
+      <div
+        className={
+          isMobile
+            ? "sticky bottom-0 grid gap-4 border-t border-slate-100 bg-white px-6 pb-6 pt-4"
+            : "sticky bottom-0 grid gap-4 border-t border-slate-100 bg-white/95 pt-3"
+        }
+      >
         <div className="flex items-center justify-between text-base">
           <span>Total</span>
           <strong>{formatPrice(total)}</strong>
         </div>
         <button
-          className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0"
           type="button"
           onClick={onCheckout}
           disabled={cart.length === 0}
         >
-          Enviar pedido por WhatsApp
+          Realizar pedido por WhatsApp
         </button>
       </div>
     </aside>
   );
 }
+
+

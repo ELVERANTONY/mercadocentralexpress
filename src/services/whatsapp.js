@@ -7,12 +7,11 @@ const formatter = new Intl.NumberFormat("es-PE", {
 export const formatPrice = (value) => formatter.format(value);
 
 export const buildWhatsAppMessage = (cart, total, options = {}) => {
-  const { customerName = "", itemCount = 0 } = options;
+  const { itemCount = 0 } = options;
   const separator = "--------------------";
   const lines = [
     "*Pedido nuevo*",
     separator,
-    customerName ? `Cliente: ${customerName}` : null,
     `Items: ${itemCount}`,
     "",
     ...cart.map(

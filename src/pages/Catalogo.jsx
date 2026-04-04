@@ -3,6 +3,7 @@ import Cart from "../components/Cart.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { buildWhatsAppMessage, openWhatsApp } from "../services/whatsapp.js";
 import logo from "../images/logo.png";
+import bolsasImg from "../images/Bolsas.jpeg";
 
 const PHONE_NUMBER = "51994220535";
 const CART_STORAGE_KEY = "mce_cart_v1";
@@ -10,82 +11,93 @@ const CART_STORAGE_KEY = "mce_cart_v1";
 const hardcodedProducts = [
   {
     id: "demo-1",
-    nombre: "Pack de moldes de paletas",
-    precio: 19.9,
-    variantes: ["4 moldes", "8 moldes"],
-    imagen:
-      "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=800&q=80",
+    nombre: "Pack de bolsas al vacío",
+    precio: 79.0,
+    variantes: ["Pack"],
+    allowQuantity: true,
+    imagen: bolsasImg,
   },
   {
     id: "demo-2",
-    nombre: "Set de utensilios",
-    precio: 29.5,
-    variantes: ["Basico", "Pro"],
-    imagen:
-      "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=800&q=80",
+    nombre: "Bolsa al vacío 60 x 80 cm",
+    precio: 30.0,
+    variantes: ["x3 UND", "x6 UND", "x12 UND"],
+    allowQuantity: false,
+    unitPrice: 10,
+    variantQuantities: {
+      "x3 UND": 3,
+      "x6 UND": 6,
+      "x12 UND": 12,
+    },
+    variantPrices: {
+      "x3 UND": 30,
+      "x6 UND": 55,
+      "x12 UND": 98,
+    },
+    imagen: bolsasImg,
   },
   {
     id: "demo-3",
-    nombre: "Vasos termicos",
-    precio: 24.0,
-    variantes: ["350 ml", "500 ml"],
-    imagen:
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=800&q=80",
+    nombre: "Bolsa al vacío 70 x 100 cm",
+    precio: 30.0,
+    variantes: ["x3 UND", "x6 UND", "x12 UND"],
+    allowQuantity: false,
+    unitPrice: 10,
+    variantQuantities: {
+      "x3 UND": 3,
+      "x6 UND": 6,
+      "x12 UND": 12,
+    },
+    variantPrices: {
+      "x3 UND": 30,
+      "x6 UND": 55,
+      "x12 UND": 98,
+    },
+    imagen: bolsasImg,
   },
   {
     id: "demo-4",
-    nombre: "Contenedores hermeticos",
-    precio: 34.9,
-    variantes: ["Set x3", "Set x5"],
-    imagen:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
+    nombre: "Bolsa al vacío 80 x 110 cm",
+    precio: 30.0,
+    variantes: ["x3 UND", "x6 UND", "x12 UND"],
+    allowQuantity: false,
+    unitPrice: 10,
+    variantQuantities: {
+      "x3 UND": 3,
+      "x6 UND": 6,
+      "x12 UND": 12,
+    },
+    variantPrices: {
+      "x3 UND": 30,
+      "x6 UND": 55,
+      "x12 UND": 98,
+    },
+    imagen: bolsasImg,
   },
   {
     id: "demo-5",
-    nombre: "Tabla de picar premium",
-    precio: 27.5,
-    variantes: ["Bambu", "Madera"],
-    imagen:
-      "https://images.unsplash.com/photo-1498654200943-1088dd4438ae?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: "demo-6",
-    nombre: "Tapers apilables",
-    precio: 21.9,
-    variantes: ["4 piezas", "6 piezas"],
-    imagen:
-      "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: "demo-7",
-    nombre: "Pack de vasos termicos",
-    precio: 39.0,
-    variantes: ["2 unidades", "4 unidades"],
-    imagen:
-      "https://images.unsplash.com/photo-1527169402691-feff5539e52c?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: "demo-8",
-    nombre: "Set de cuchillos",
-    precio: 58.0,
-    variantes: ["3 piezas", "5 piezas"],
-    imagen:
-      "https://images.unsplash.com/photo-1498579397066-22750a3cb424?auto=format&fit=crop&w=800&q=80",
-  },
-  {
-    id: "demo-9",
-    nombre: "Organizador de cocina",
-    precio: 32.0,
-    variantes: ["Compacto", "Grande"],
-    imagen:
-      "https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=crop&w=800&q=80",
+    nombre: "Bolsa al vacío para colgar camisas y sacos 80 x 90 cm",
+    precio: 30.0,
+    variantes: ["x3 UND", "x6 UND", "x12 UND"],
+    allowQuantity: false,
+    unitPrice: 10,
+    variantQuantities: {
+      "x3 UND": 3,
+      "x6 UND": 6,
+      "x12 UND": 12,
+    },
+    variantPrices: {
+      "x3 UND": 30,
+      "x6 UND": 55,
+      "x12 UND": 98,
+    },
+    imagen: bolsasImg,
   },
 ];
 
 export default function Catalogo() {
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
-  const [customerName, setCustomerName] = useState("");
 
   useEffect(() => {
     try {
@@ -94,9 +106,18 @@ export default function Catalogo() {
       const parsed = JSON.parse(raw);
       const now = Date.now();
 
+      const normalizeItems = (items) =>
+        items.map((item) => ({
+          ...item,
+          allowQuantity:
+            typeof item.allowQuantity === "boolean"
+              ? item.allowQuantity
+              : item.variante === "Pack",
+        }));
+
       // Soportar formato antiguo (array directo).
       if (Array.isArray(parsed)) {
-        setCart(parsed);
+        setCart(normalizeItems(parsed));
         return;
       }
 
@@ -106,7 +127,7 @@ export default function Catalogo() {
         typeof parsed.expiresAt === "number"
       ) {
         if (now < parsed.expiresAt) {
-          setCart(parsed.items);
+          setCart(normalizeItems(parsed.items));
         } else {
           localStorage.removeItem(CART_STORAGE_KEY);
         }
@@ -136,9 +157,11 @@ export default function Catalogo() {
     () => cart.reduce((acc, item) => acc + item.cantidad, 0),
     [cart]
   );
+  const hasCartItems = cartItemsCount > 0;
 
-  const addToCart = (product, variant, quantity) => {
+  const addToCart = (product, variant, quantity, priceOverride) => {
     if (!quantity || quantity <= 0) return;
+    const finalPrice = priceOverride ?? product.precio;
     const key = `${product.id}::${variant || "default"}`;
     setCart((prev) => {
       const existing = prev.find((item) => item.key === key);
@@ -159,10 +182,11 @@ export default function Catalogo() {
           key,
           id: product.id,
           nombre: product.nombre,
-          precio: product.precio,
+          precio: finalPrice,
           variante: variant || "Estandar",
+          allowQuantity: product.allowQuantity !== false,
           cantidad: quantity,
-          subtotal: quantity * product.precio,
+          subtotal: quantity * finalPrice,
         },
       ];
     });
@@ -192,7 +216,6 @@ export default function Catalogo() {
 
   const handleCheckout = () => {
     const message = buildWhatsAppMessage(cart, cartTotal, {
-      customerName: customerName.trim(),
       itemCount: cartItemsCount,
     });
     openWhatsApp(PHONE_NUMBER, message);
@@ -201,8 +224,14 @@ export default function Catalogo() {
   };
 
   return (
-    <div className="mx-auto max-w-[1320px] px-3 pb-12 pt-5">
-      <header className="mb-7 flex flex-col items-start justify-between gap-4 rounded-[18px] bg-white/90 px-5 py-4 shadow-card backdrop-blur sm:flex-row sm:items-center">
+    <div className="mx-auto max-w-[1400px] px-3 pb-12 pt-4">
+
+      <div
+        className={`sticky top-0 z-40 bg-[#f2f2f2] pt-0 ${
+          cartOpen ? "hidden md:block" : ""
+        }`}
+      >
+        <header className="mb-4 flex flex-col items-start justify-between gap-4 rounded-[20px] border border-slate-100 bg-white px-6 py-4 shadow-card sm:flex-row sm:items-center">
         <div className="flex items-center gap-3">
           <img
             className="h-12 w-12 rounded-full border-2 border-primary bg-white object-cover"
@@ -213,19 +242,25 @@ export default function Catalogo() {
             <h1 className="text-xl font-semibold text-slate-900">
               Mercado Central Express
             </h1>
-            <p className="text-sm text-slate-400">
-              Elige el detalle perfecto para hoy
+            <p className="text-sm font-medium text-slate-600">
+              Más espacio, menos volumen
             </p>
           </div>
         </div>
         <div className="flex w-full items-center justify-end gap-3 sm:w-auto">
           <button
-            className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary"
-            onClick={() => setCartOpen(true)}
+            className={`inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary ${
+              hasCartItems ? "ring-2 ring-primary/30" : ""
+            }`}
+            onClick={() => {
+              if (window.matchMedia("(max-width: 767px)").matches) {
+                setCartOpen(true);
+              }
+            }}
             aria-label="Abrir carrito"
           >
             <svg
-              className="h-5 w-5"
+              className={`h-6 w-6 ${hasCartItems ? "cart-pop" : ""}`}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -238,12 +273,17 @@ export default function Catalogo() {
               <circle cx="20" cy="21" r="1" />
               <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
             </svg>
-            <span className="ml-2 inline-flex min-w-[26px] items-center justify-center rounded-full bg-primary-soft px-2 py-0.5 text-xs font-semibold text-primary">
-              {cart.length}
-            </span>
-          </button>
+              <span
+                className={`ml-3 inline-flex min-w-[32px] items-center justify-center rounded-full bg-primary-soft px-2 py-1 text-sm font-semibold text-primary ${
+                  hasCartItems ? "badge-pulse" : ""
+                }`}
+              >
+                {cart.length}
+              </span>
+            </button>
         </div>
-      </header>
+        </header>
+      </div>
 
       {hardcodedProducts.length === 0 ? (
         <section className="empty-state">
@@ -251,14 +291,29 @@ export default function Catalogo() {
           <p>Sube productos desde el panel administrador.</p>
         </section>
       ) : (
-        <div className="grid items-start gap-7 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="col-span-full">
-            <h2 className="text-2xl font-semibold text-slate-900">
-              Nuestra Coleccion
-            </h2>
-            <p className="text-sm text-slate-400">
-              Explora nuestras opciones destacadas.
-            </p>
+        <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
+          <div className="col-span-full mb-1 grid gap-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div className="grid gap-1">
+              <div className="flex flex-wrap items-center gap-3">
+                <h2 className="text-2xl font-semibold text-slate-900">
+                  Colección Destacada
+                </h2>
+                <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
+                  Hasta -80% volumen
+                </span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 justify-start md:justify-end">
+              <span className="rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)] animate-soft-pop">
+                Oferta limitada
+              </span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]">
+                Envío rápido
+              </span>
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]">
+                Stock inmediato
+              </span>
+            </div>
           </div>
           <section className="grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {hardcodedProducts.map((product) => (
@@ -271,17 +326,14 @@ export default function Catalogo() {
               </div>
             ))}
           </section>
-          <div className="hidden md:block md:sticky md:top-6 md:self-start md:max-h-[calc(100vh-48px)] md:overflow-auto">
+          <div className="hidden md:block md:sticky md:top-28 md:z-10 md:self-start md:max-h-[calc(100vh-180px)] md:overflow-auto">
             <Cart
               cart={cart}
               total={cartTotal}
               onUpdateItem={updateCartItem}
               onCheckout={handleCheckout}
-              isOpen
               onClose={() => setCartOpen(false)}
               onRemoveItem={removeCartItem}
-              customerName={customerName}
-              onCustomerNameChange={setCustomerName}
               variant="desktop"
             />
           </div>
@@ -294,11 +346,15 @@ export default function Catalogo() {
               isOpen
               onClose={() => setCartOpen(false)}
               onRemoveItem={removeCartItem}
-              customerName={customerName}
-              onCustomerNameChange={setCustomerName}
               variant="mobile"
             />
           )}
+          <div
+            className={`fixed inset-0 z-20 bg-slate-900/30 transition ${
+              cartOpen ? "opacity-100" : "pointer-events-none opacity-0"
+            } md:hidden`}
+            onClick={() => setCartOpen(false)}
+          />
         </div>
       )}
     </div>
