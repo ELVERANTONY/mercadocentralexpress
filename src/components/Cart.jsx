@@ -11,24 +11,30 @@ export default function Cart({
   onRemoveItem,
   customerName,
   onCustomerNameChange,
+  variant = "desktop",
 }) {
+  const isMobile = variant === "mobile";
   return (
     <aside
-      className={`fixed right-0 top-0 z-30 h-screen w-[90vw] max-w-[420px] translate-x-full rounded-l-[22px] bg-white/90 p-6 shadow-card backdrop-blur transition duration-300 lg:static lg:h-auto lg:w-auto lg:max-w-none lg:translate-x-0 lg:rounded-[22px] lg:max-h-[calc(100vh-48px)] lg:overflow-auto ${
-        isOpen ? "translate-x-0" : ""
-      }`}
+      className={
+        isMobile
+          ? "fixed inset-0 z-30 h-screen w-screen overflow-auto bg-white p-6 shadow-card"
+          : "rounded-[22px] bg-white/90 p-6 shadow-card backdrop-blur"
+      }
     >
       <div className="flex items-center justify-between pb-2">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold text-slate-900">Resumen</h2>
         </div>
-        <button
-          className="text-2xl text-slate-400 hover:text-slate-600 lg:hidden"
-          type="button"
-          onClick={onClose}
-        >
-          ×
-        </button>
+        {isMobile && (
+          <button
+            className="text-2xl text-slate-400 hover:text-slate-600"
+            type="button"
+            onClick={onClose}
+          >
+            ×
+          </button>
+        )}
       </div>
       <label className="grid gap-2 text-sm text-slate-500">
         <span>Nombre del cliente</span>

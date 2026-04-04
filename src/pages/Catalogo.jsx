@@ -251,7 +251,7 @@ export default function Catalogo() {
           <p>Sube productos desde el panel administrador.</p>
         </section>
       ) : (
-        <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
+        <div className="grid items-start gap-7 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
           <div className="col-span-full">
             <h2 className="text-2xl font-semibold text-slate-900">
               Nuestra Coleccion
@@ -264,32 +264,41 @@ export default function Catalogo() {
             {hardcodedProducts.map((product) => (
               <div key={product.id} className="animate-fade-up">
                 <ProductCard
-                key={product.id}
-                product={product}
-                onAddToCart={addToCart}
+                  key={product.id}
+                  product={product}
+                  onAddToCart={addToCart}
                 />
               </div>
             ))}
           </section>
-          <div className="lg:sticky lg:top-6 lg:self-start lg:max-h-[calc(100vh-48px)] lg:overflow-auto">
+          <div className="hidden md:block md:sticky md:top-6 md:self-start md:max-h-[calc(100vh-48px)] md:overflow-auto">
             <Cart
               cart={cart}
               total={cartTotal}
               onUpdateItem={updateCartItem}
-            onCheckout={handleCheckout}
-            isOpen={cartOpen}
-            onClose={() => setCartOpen(false)}
-            onRemoveItem={removeCartItem}
-            customerName={customerName}
-            onCustomerNameChange={setCustomerName}
-          />
+              onCheckout={handleCheckout}
+              isOpen
+              onClose={() => setCartOpen(false)}
+              onRemoveItem={removeCartItem}
+              customerName={customerName}
+              onCustomerNameChange={setCustomerName}
+              variant="desktop"
+            />
           </div>
-          <div
-            className={`fixed inset-0 z-20 bg-slate-900/40 backdrop-blur-[2px] transition ${
-              cartOpen ? "opacity-100" : "pointer-events-none opacity-0"
-            } lg:hidden`}
-            onClick={() => setCartOpen(false)}
-          />
+          {cartOpen && (
+            <Cart
+              cart={cart}
+              total={cartTotal}
+              onUpdateItem={updateCartItem}
+              onCheckout={handleCheckout}
+              isOpen
+              onClose={() => setCartOpen(false)}
+              onRemoveItem={removeCartItem}
+              customerName={customerName}
+              onCustomerNameChange={setCustomerName}
+              variant="mobile"
+            />
+          )}
         </div>
       )}
     </div>
