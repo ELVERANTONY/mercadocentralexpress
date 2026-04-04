@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border m-0 p-0;
+  }
+
+  body {
+    @apply bg-[#f2f2f2] text-slate-900 min-h-screen;
+    font-family: "Poppins", system-ui, sans-serif;
+  }
+}
