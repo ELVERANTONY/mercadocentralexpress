@@ -1,9 +1,15 @@
-﻿import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import Cart from "../components/Cart.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { buildWhatsAppMessage, openWhatsApp } from "../services/whatsapp.js";
 import logo from "../images/logo.png";
-import bolsasImg from "../images/Bolsas.jpeg";
+import bolsasPackImg from "../images/Bolsas al vacio.png";
+import bolsasVacioX3Img from "../images/BOLSAS AL VACIO X3 UND.png";
+import bolsasVacioX6Img from "../images/BOLSAS AL VACIO X6 UND.png";
+import bolsasVacioX12Img from "../images/BOLSAS AL VACIO X12 UND.png";
+import bolsasCamisasX3Img from "../images/BOLSAS CAMISAS X3 UND.png";
+import bolsasCamisasX6Img from "../images/BOLSAS CAMISAS X6 UND.png";
+import bolsasCamisasX12Img from "../images/BOLSAS CAMISAS X12 UND.png";
 
 const PHONE_NUMBER = "51994220535";
 const CART_STORAGE_KEY = "mce_cart_v1";
@@ -13,14 +19,15 @@ const hardcodedProducts = [
     id: "demo-1",
     nombre: "Pack de bolsas al vacío",
     precio: 79.0,
+    compareAtPrice: 99.0,
     variantes: ["Pack"],
     allowQuantity: true,
-    imagen: bolsasImg,
+    imagen: bolsasPackImg,
   },
   {
     id: "demo-2",
     nombre: "Bolsa al vacío 60 x 80 cm",
-    precio: 30.0,
+    precio: 38.0,
     variantes: ["x3 UND", "x6 UND", "x12 UND"],
     allowQuantity: false,
     unitPrice: 10,
@@ -30,16 +37,26 @@ const hardcodedProducts = [
       "x12 UND": 12,
     },
     variantPrices: {
-      "x3 UND": 30,
-      "x6 UND": 55,
+      "x3 UND": 38,
+      "x6 UND": 54,
       "x12 UND": 98,
     },
-    imagen: bolsasImg,
+    variantCompareAtPrices: {
+      "x3 UND": 48,
+      "x6 UND": 72,
+      "x12 UND": 120,
+    },
+    variantImages: {
+      "x3 UND": bolsasVacioX3Img,
+      "x6 UND": bolsasVacioX6Img,
+      "x12 UND": bolsasVacioX12Img,
+    },
+    imagen: bolsasVacioX3Img,
   },
   {
     id: "demo-3",
     nombre: "Bolsa al vacío 70 x 100 cm",
-    precio: 30.0,
+    precio: 45.0,
     variantes: ["x3 UND", "x6 UND", "x12 UND"],
     allowQuantity: false,
     unitPrice: 10,
@@ -49,11 +66,21 @@ const hardcodedProducts = [
       "x12 UND": 12,
     },
     variantPrices: {
-      "x3 UND": 30,
-      "x6 UND": 55,
-      "x12 UND": 98,
+      "x3 UND": 45,
+      "x6 UND": 70,
+      "x12 UND": 120,
     },
-    imagen: bolsasImg,
+    variantCompareAtPrices: {
+      "x3 UND": 60,
+      "x6 UND": 90,
+      "x12 UND": 150,
+    },
+    variantImages: {
+      "x3 UND": bolsasVacioX3Img,
+      "x6 UND": bolsasVacioX6Img,
+      "x12 UND": bolsasVacioX12Img,
+    },
+    imagen: bolsasVacioX6Img,
   },
   {
     id: "demo-4",
@@ -72,12 +99,22 @@ const hardcodedProducts = [
       "x6 UND": 55,
       "x12 UND": 98,
     },
-    imagen: bolsasImg,
+    variantCompareAtPrices: {
+      "x3 UND": 45,
+      "x6 UND": 80,
+      "x12 UND": 130,
+    },
+    variantImages: {
+      "x3 UND": bolsasVacioX3Img,
+      "x6 UND": bolsasVacioX6Img,
+      "x12 UND": bolsasVacioX12Img,
+    },
+    imagen: bolsasVacioX12Img,
   },
   {
     id: "demo-5",
-    nombre: "Bolsa al vacío para colgar camisas y sacos 80 x 90 cm",
-    precio: 30.0,
+    nombre: "Bolsa al vacío para colgar camisas y sacos",
+    precio: 52.0,
     variantes: ["x3 UND", "x6 UND", "x12 UND"],
     allowQuantity: false,
     unitPrice: 10,
@@ -87,17 +124,32 @@ const hardcodedProducts = [
       "x12 UND": 12,
     },
     variantPrices: {
-      "x3 UND": 30,
-      "x6 UND": 55,
-      "x12 UND": 98,
+      "x3 UND": 52,
+      "x6 UND": 82,
+      "x12 UND": 140,
     },
-    imagen: bolsasImg,
+    variantCompareAtPrices: {
+      "x3 UND": 70,
+      "x6 UND": 110,
+      "x12 UND": 180,
+    },
+    variantImages: {
+      "x3 UND": bolsasCamisasX3Img,
+      "x6 UND": bolsasCamisasX6Img,
+      "x12 UND": bolsasCamisasX12Img,
+    },
+    imagen: bolsasCamisasX3Img,
   },
 ];
 
 export default function Catalogo() {
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [flyingItems, setFlyingItems] = useState([]);
+  const [isCartBumpActive, setIsCartBumpActive] = useState(false);
+  const cartButtonRef = useRef(null);
+  const desktopCartRef = useRef(null);
+  const desktopSummaryRef = useRef(null);
 
   useEffect(() => {
     try {
@@ -149,6 +201,14 @@ export default function Catalogo() {
     }
   }, [cart]);
 
+  useEffect(() => {
+    if (!isCartBumpActive) return;
+    const timeoutId = window.setTimeout(() => {
+      setIsCartBumpActive(false);
+    }, 420);
+    return () => window.clearTimeout(timeoutId);
+  }, [isCartBumpActive]);
+
   const cartTotal = useMemo(
     () => cart.reduce((acc, item) => acc + item.subtotal, 0),
     [cart]
@@ -159,7 +219,51 @@ export default function Catalogo() {
   );
   const hasCartItems = cartItemsCount > 0;
 
-  const addToCart = (product, variant, quantity, priceOverride) => {
+  const addFlyingPreview = (flyData) => {
+    if (!flyData?.imageSrc || !flyData?.imageRect) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
+    const targetEl = isMobile
+      ? cartButtonRef.current
+      : desktopSummaryRef.current || desktopCartRef.current;
+
+    if (!targetEl) return;
+
+    const sourceRect = flyData.imageRect;
+    const targetRect = targetEl.getBoundingClientRect();
+    if (
+      sourceRect.width === 0 ||
+      sourceRect.height === 0 ||
+      targetRect.width === 0 ||
+      targetRect.height === 0
+    ) {
+      return;
+    }
+
+    const fromCenterX = sourceRect.left + sourceRect.width / 2;
+    const fromCenterY = sourceRect.top + sourceRect.height / 2;
+    const toCenterX = targetRect.left + targetRect.width / 2;
+    const toCenterY = targetRect.top + targetRect.height / 2;
+    const id = `fly-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    setFlyingItems((prev) => [
+      ...prev,
+      {
+        id,
+        src: flyData.imageSrc,
+        left: sourceRect.left,
+        top: sourceRect.top,
+        width: sourceRect.width,
+        height: sourceRect.height,
+        dx: toCenterX - fromCenterX,
+        dy: toCenterY - fromCenterY,
+        arc: isMobile ? -74 : 118,
+      },
+    ]);
+  };
+
+  const addToCart = (product, variant, quantity, priceOverride, flyData) => {
     if (!quantity || quantity <= 0) return;
     const finalPrice = priceOverride ?? product.precio;
     const key = `${product.id}::${variant || "default"}`;
@@ -190,6 +294,12 @@ export default function Catalogo() {
         },
       ];
     });
+    addFlyingPreview(flyData);
+    setIsCartBumpActive(true);
+  };
+
+  const handleFlyAnimationEnd = (id) => {
+    setFlyingItems((prev) => prev.filter((item) => item.id !== id));
   };
 
   const updateCartItem = (key, nextQty) => {
@@ -249,6 +359,7 @@ export default function Catalogo() {
         </div>
         <div className="flex w-full items-center justify-end gap-3 sm:w-auto">
           <button
+            ref={cartButtonRef}
             className={`inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary ${
               hasCartItems ? "ring-2 ring-primary/30" : ""
             }`}
@@ -260,7 +371,9 @@ export default function Catalogo() {
             aria-label="Abrir carrito"
           >
             <svg
-              className={`h-6 w-6 ${hasCartItems ? "cart-pop" : ""}`}
+              className={`h-6 w-6 ${hasCartItems ? "cart-pop" : ""} ${
+                isCartBumpActive ? "cart-bump" : ""
+              }`}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -276,7 +389,7 @@ export default function Catalogo() {
               <span
                 className={`ml-3 inline-flex min-w-[32px] items-center justify-center rounded-full bg-primary-soft px-2 py-1 text-sm font-semibold text-primary ${
                   hasCartItems ? "badge-pulse" : ""
-                }`}
+                } ${isCartBumpActive ? "cart-bump" : ""}`}
               >
                 {cart.length}
               </span>
@@ -299,7 +412,7 @@ export default function Catalogo() {
                   Colección Destacada
                 </h2>
                 <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-                  Hasta -80% volumen
+                  Hasta -75% volumen
                 </span>
               </div>
             </div>
@@ -335,6 +448,8 @@ export default function Catalogo() {
               onClose={() => setCartOpen(false)}
               onRemoveItem={removeCartItem}
               variant="desktop"
+              containerRef={desktopCartRef}
+              summaryRef={desktopSummaryRef}
             />
           </div>
           {cartOpen && (
@@ -357,11 +472,28 @@ export default function Catalogo() {
           />
         </div>
       )}
+      <div className="pointer-events-none fixed inset-0 z-[70] overflow-hidden">
+        {flyingItems.map((item) => (
+          <img
+            key={item.id}
+            src={item.src}
+            alt=""
+            aria-hidden="true"
+            className="fly-to-cart-image"
+            style={{
+              left: `${item.left}px`,
+              top: `${item.top}px`,
+              width: `${item.width}px`,
+              height: `${item.height}px`,
+              "--dx": `${item.dx}px`,
+              "--dy": `${item.dy}px`,
+              "--arc": `${item.arc}px`,
+            }}
+            onAnimationEnd={() => handleFlyAnimationEnd(item.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
-
-
-
-
 

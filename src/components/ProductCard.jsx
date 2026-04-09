@@ -1,8 +1,9 @@
-﻿import { useState } from "react";
+﻿import { useRef, useState } from "react";
 import QuantitySelector from "./QuantitySelector.jsx";
 import { formatPrice } from "../services/whatsapp.js";
 
 export default function ProductCard({ product, onAddToCart }) {
+  const imageRef = useRef(null);
   const hasVariants = product.variantes && product.variantes.length > 0;
   const allowQuantity = product.allowQuantity !== false;
   const [variant, setVariant] = useState(
@@ -13,36 +14,40 @@ export default function ProductCard({ product, onAddToCart }) {
     product.variantPrices && variant in product.variantPrices
       ? product.variantPrices[variant]
       : product.precio;
+  const compareAtPrice = allowQuantity
+    ? (product.compareAtPrice ?? product.precio) * quantity
+    : product.variantCompareAtPrices &&
+        variant in product.variantCompareAtPrices
+      ? product.variantCompareAtPrices[variant]
+      : product.precio;
   const displayPrice = allowQuantity ? product.precio * quantity : variantPrice;
-  const variantQty =
-    product.variantQuantities && variant in product.variantQuantities
-      ? product.variantQuantities[variant]
-      : null;
-  const originalPrice =
-    typeof product.unitPrice === "number" && variantQty
-      ? product.unitPrice * variantQty
-      : null;
-  const discountAmount =
-    originalPrice && variantPrice < originalPrice
-      ? originalPrice - variantPrice
-      : 0;
+  const selectedImage =
+    product.variantImages && variant in product.variantImages
+      ? product.variantImages[variant]
+      : product.imagen;
+  const discountAmount = Math.max(compareAtPrice - displayPrice, 0);
   const discountPercent =
     discountAmount > 0
-      ? Math.round((discountAmount / originalPrice) * 100)
+      ? Math.round((discountAmount / compareAtPrice) * 100)
       : 0;
 
   const handleAdd = () => {
     const qty = allowQuantity ? quantity : 1;
-    onAddToCart(product, variant, qty, variantPrice);
+    const imageRect = imageRef.current?.getBoundingClientRect();
+    onAddToCart(product, variant, qty, variantPrice, {
+      imageSrc: selectedImage,
+      imageRect,
+    });
     setQuantity(1);
   };
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-[0_16px_34px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(15,23,42,0.12)]">
-      <div className="relative grid h-56 place-items-center overflow-hidden bg-[#fafafa] p-3">
-        {product.imagen ? (
+      <div className="relative grid h-52 place-items-center overflow-hidden bg-[#fafafa] p-2.5">
+        {selectedImage ? (
           <img
-            src={product.imagen}
+            ref={imageRef}
+            src={selectedImage}
             alt={product.nombre}
             className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.015]"
           />
@@ -50,27 +55,25 @@ export default function ProductCard({ product, onAddToCart }) {
           <div className="font-medium text-slate-400">Sin imagen</div>
         )}
       </div>
-      <div className="flex flex-1 flex-col gap-4 p-6">
-        <h3 className="min-h-[48px] text-lg font-semibold leading-snug text-slate-900">
+      <div className="flex flex-1 flex-col gap-2.5 p-5">
+        <h3 className="text-lg font-semibold leading-tight text-slate-900">
           {product.nombre}
         </h3>
+        <p className="text-[12px] font-medium leading-tight text-slate-400">
+          Color de la bolsa referencial.
+        </p>
         <div className="flex flex-wrap items-center gap-2">
-          <p className="min-h-[28px] text-2xl font-extrabold tracking-wide text-primary">
+          <p className="text-2xl font-extrabold tracking-wide text-primary">
             {formatPrice(displayPrice)}
           </p>
-          {discountAmount > 0 && (
-            <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-              -{discountPercent}% · Ahorra {formatPrice(discountAmount)}
-            </span>
-          )}
+          <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
+            {discountPercent > 0 ? `-${discountPercent}% · ` : ""}
+            Ahorra {formatPrice(discountAmount)}
+          </span>
         </div>
-        {discountAmount > 0 && (
-          <p className="text-xs text-slate-400">
-            Antes {formatPrice(originalPrice)}
-          </p>
-        )}
+        <p className="text-sm text-slate-400">Antes {formatPrice(compareAtPrice)}</p>
         {hasVariants && (
-          <div className="grid min-h-[72px] content-start gap-2 text-sm text-slate-500">
+          <div className="grid content-start gap-2 text-sm text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
               Variante
             </span>
@@ -92,7 +95,7 @@ export default function ProductCard({ product, onAddToCart }) {
             </div>
           </div>
         )}
-        <div className="mt-auto grid gap-3 pt-1">
+        <div className="mt-auto grid gap-2.5 pt-0.5">
           {allowQuantity && (
             <QuantitySelector value={quantity} onChange={setQuantity} />
           )}
@@ -108,4 +111,3 @@ export default function ProductCard({ product, onAddToCart }) {
     </article>
   );
 }
-

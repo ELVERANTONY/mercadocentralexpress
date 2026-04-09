@@ -10,10 +10,13 @@ export default function Cart({
   onClose,
   onRemoveItem,
   variant = "desktop",
+  containerRef,
+  summaryRef,
 }) {
   const isMobile = variant === "mobile";
   return (
     <aside
+      ref={containerRef}
       className={
         isMobile
           ? "fixed inset-0 z-30 h-screen w-screen overflow-auto bg-white shadow-card"
@@ -23,7 +26,9 @@ export default function Cart({
       <div className={isMobile ? "sticky top-0 z-10 bg-white px-6 pb-3 pt-5 shadow-[0_10px_20px_rgba(0,0,0,0.04)]" : "pb-2"}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold text-slate-900">Resumen</h2>
+            <h2 ref={summaryRef} className="text-xl font-semibold text-slate-900">
+              Resumen
+            </h2>
           </div>
           {isMobile && (
             <button
@@ -101,5 +106,4 @@ export default function Cart({
     </aside>
   );
 }
-
 
