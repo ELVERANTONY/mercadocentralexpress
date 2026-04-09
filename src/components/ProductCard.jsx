@@ -25,11 +25,18 @@ export default function ProductCard({ product, onAddToCart }) {
     product.variantImages && variant in product.variantImages
       ? product.variantImages[variant]
       : product.imagen;
+  const variantQty =
+    product.variantQuantities && variant in product.variantQuantities
+      ? product.variantQuantities[variant]
+      : null;
   const discountAmount = Math.max(compareAtPrice - displayPrice, 0);
   const discountPercent =
     discountAmount > 0
       ? Math.round((discountAmount / compareAtPrice) * 100)
       : 0;
+  const shouldShowDiscountInfo = allowQuantity
+    ? discountAmount > 0
+    : typeof variantQty === "number" && variantQty > 3 && discountAmount > 0;
 
   const handleAdd = () => {
     const qty = allowQuantity ? quantity : 1;
@@ -66,12 +73,18 @@ export default function ProductCard({ product, onAddToCart }) {
           <p className="text-2xl font-extrabold tracking-wide text-primary">
             {formatPrice(displayPrice)}
           </p>
-          <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-            {discountPercent > 0 ? `-${discountPercent}% · ` : ""}
-            Ahorra {formatPrice(discountAmount)}
-          </span>
+          {shouldShowDiscountInfo && (
+            <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
+              {discountPercent > 0 ? `-${discountPercent}% · ` : ""}
+              Ahorra {formatPrice(discountAmount)}
+            </span>
+          )}
         </div>
-        <p className="text-sm text-slate-400">Antes {formatPrice(compareAtPrice)}</p>
+        {shouldShowDiscountInfo && (
+          <p className="text-sm text-slate-400">
+            Antes {formatPrice(compareAtPrice)}
+          </p>
+        )}
         {hasVariants && (
           <div className="grid content-start gap-2 text-sm text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
