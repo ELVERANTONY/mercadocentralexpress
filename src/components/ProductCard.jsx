@@ -4,6 +4,7 @@ import { formatPrice } from "../services/whatsapp.js";
 
 export default function ProductCard({ product, onAddToCart }) {
   const imageRef = useRef(null);
+  const discountEnabled = product.disableDiscount !== true;
   const hasVariants = product.variantes && product.variantes.length > 0;
   const allowQuantity = product.allowQuantity !== false;
   const [variant, setVariant] = useState(
@@ -29,13 +30,15 @@ export default function ProductCard({ product, onAddToCart }) {
     product.variantQuantities && variant in product.variantQuantities
       ? product.variantQuantities[variant]
       : null;
-  const discountAmount = Math.max(compareAtPrice - displayPrice, 0);
+  const discountAmount = discountEnabled
+    ? Math.max(compareAtPrice - displayPrice, 0)
+    : 0;
   const discountPercent =
     discountAmount > 0
       ? Math.round((discountAmount / compareAtPrice) * 100)
       : 0;
   const shouldShowDiscountInfo = allowQuantity
-    ? discountAmount > 0
+    ? discountEnabled && discountAmount > 0
     : typeof variantQty === "number" && variantQty > 3 && discountAmount > 0;
 
   const handleAdd = () => {

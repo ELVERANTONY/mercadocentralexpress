@@ -19,7 +19,7 @@ const hardcodedProducts = [
     id: "demo-1",
     nombre: "Pack de bolsas al vacío",
     precio: 79.0,
-    compareAtPrice: 99.0,
+    disableDiscount: true,
     variantes: ["Pack"],
     allowQuantity: true,
     imagen: bolsasPackImg,
@@ -496,4 +496,3 @@ export default function Catalogo() {
     </div>
   );
 }
-
