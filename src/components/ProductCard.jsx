@@ -70,28 +70,28 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
       </div>
       <div className="flex flex-1 flex-col gap-1.5 p-3.5 md:gap-2.5 md:p-5">
-        <h3 className="text-[1.26rem] font-semibold leading-tight text-slate-900 md:text-[1.45rem]">
+        <h3 className="text-[1.26rem] font-semibold leading-tight text-slate-900 md:text-[1.28rem]">
           {product.nombre}
         </h3>
         <div className="flex flex-wrap items-end gap-2">
           {shouldShowDiscountInfo && (
-            <p className="text-base font-semibold text-slate-400 line-through md:text-sm">
+            <p className="text-base font-semibold text-slate-400 line-through md:text-[0.95rem]">
               {formatPrice(compareAtPrice)}
             </p>
           )}
-          <p className="text-[1.72rem] font-extrabold tracking-wide text-primary md:text-[1.9rem]">
+          <p className="text-[1.72rem] font-extrabold tracking-wide text-primary md:text-[1.72rem]">
             {formatPrice(displayPrice)}
           </p>
         </div>
         {(shouldShowDiscountInfo || variantOfferLabel) && (
           <div className="flex flex-wrap items-center gap-2">
             {shouldShowDiscountInfo && (
-              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-xs">
+              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-[0.74rem]">
                 Ahorra {formatPrice(discountAmount)}
               </span>
             )}
             {variantOfferLabel && (
-              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-xs">
+              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-[0.74rem]">
                 {variantQty >= 12 ? "🔥 " : "⭐ "}
                 {variantOfferLabel}
               </span>
@@ -100,7 +100,7 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
         {hasVariants && (
           <div className="grid content-start gap-1.5 text-sm text-slate-500">
-            <span className="text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-xs">
+            <span className="text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-[0.72rem]">
               Variante
             </span>
             <div className="flex flex-wrap gap-2">
@@ -108,7 +108,7 @@ export default function ProductCard({ product, onAddToCart }) {
                 <button
                   key={item}
                   type="button"
-                  className={`rounded-full border px-4 py-2 text-[0.9rem] font-semibold transition md:text-[0.95rem] ${
+                  className={`rounded-full border px-4 py-2 text-[0.9rem] font-semibold transition md:px-3.5 md:py-1.5 md:text-[0.82rem] ${
                     variant === item
                       ? "border-primary/40 bg-primary-soft text-primary"
                       : "border-slate-200 bg-white text-slate-700 hover:border-primary/40 hover:text-primary"
@@ -126,7 +126,7 @@ export default function ProductCard({ product, onAddToCart }) {
             <QuantitySelector value={quantity} onChange={setQuantity} />
           )}
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-[0.95rem] font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:text-sm"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-[0.95rem] font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:py-2.5 md:text-[0.9rem]"
             type="button"
             onClick={handleAdd}
           >
