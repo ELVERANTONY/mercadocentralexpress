@@ -138,7 +138,13 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
         <div className="mt-auto grid gap-2.5 pt-0.5">
           {allowQuantity && (
-            <div className={placeQuantityNextToVariantOnDesktop ? "md:hidden" : ""}>
+            <div
+              className={`flex justify-center ${
+                placeQuantityNextToVariantOnDesktop
+                  ? "md:hidden"
+                  : "md:justify-start"
+              }`}
+            >
               <QuantitySelector value={quantity} onChange={setQuantity} />
             </div>
           )}
