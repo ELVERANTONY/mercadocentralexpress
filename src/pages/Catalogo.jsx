@@ -415,6 +415,9 @@ export default function Catalogo() {
                   Hasta -75% volumen
                 </span>
               </div>
+              <p className="text-xs font-medium text-slate-500">
+                Aviso: El color de la bolsa es referencial.
+              </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 justify-start md:justify-end">
               <span className="rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)] animate-soft-pop">

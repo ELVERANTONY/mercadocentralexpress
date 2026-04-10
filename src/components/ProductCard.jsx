@@ -33,13 +33,17 @@ export default function ProductCard({ product, onAddToCart }) {
   const discountAmount = discountEnabled
     ? Math.max(compareAtPrice - displayPrice, 0)
     : 0;
-  const discountPercent =
-    discountAmount > 0
-      ? Math.round((discountAmount / compareAtPrice) * 100)
-      : 0;
   const shouldShowDiscountInfo = allowQuantity
     ? discountEnabled && discountAmount > 0
     : typeof variantQty === "number" && variantQty > 3 && discountAmount > 0;
+  const variantOfferLabel =
+    !allowQuantity && typeof variantQty === "number"
+      ? variantQty >= 12
+        ? "Mejor precio"
+        : variantQty >= 6
+          ? "Mas vendido"
+          : null
+      : null;
 
   const handleAdd = () => {
     const qty = allowQuantity ? quantity : 1;
@@ -53,44 +57,50 @@ export default function ProductCard({ product, onAddToCart }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-[0_16px_34px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(15,23,42,0.12)]">
-      <div className="relative grid h-52 place-items-center overflow-hidden bg-[#fafafa] p-2.5">
+      <div className="relative grid h-80 place-items-center overflow-hidden bg-[#fafafa] p-1 md:h-72">
         {selectedImage ? (
           <img
             ref={imageRef}
             src={selectedImage}
             alt={product.nombre}
-            className="h-full w-full object-contain transition duration-500 group-hover:scale-[1.015]"
+            className="h-full w-full max-h-full max-w-full object-contain object-center transition duration-500 group-hover:scale-[1.015]"
           />
         ) : (
           <div className="font-medium text-slate-400">Sin imagen</div>
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2.5 p-5">
-        <h3 className="text-lg font-semibold leading-tight text-slate-900">
+        <h3 className="text-[2rem] font-semibold leading-tight text-slate-900 md:text-[1.75rem]">
           {product.nombre}
         </h3>
-        <p className="text-[12px] font-medium leading-tight text-slate-400">
-          Color de la bolsa referencial.
-        </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="text-2xl font-extrabold tracking-wide text-primary">
+        <div className="flex flex-wrap items-end gap-2">
+          {shouldShowDiscountInfo && (
+            <p className="text-xl font-semibold text-slate-400 line-through md:text-lg">
+              {formatPrice(compareAtPrice)}
+            </p>
+          )}
+          <p className="text-[2.5rem] font-extrabold tracking-wide text-primary md:text-[2.2rem]">
             {formatPrice(displayPrice)}
           </p>
-          {shouldShowDiscountInfo && (
-            <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-              {discountPercent > 0 ? `-${discountPercent}% · ` : ""}
-              Ahorra {formatPrice(discountAmount)}
-            </span>
-          )}
         </div>
-        {shouldShowDiscountInfo && (
-          <p className="text-sm text-slate-400">
-            Antes {formatPrice(compareAtPrice)}
-          </p>
+        {(shouldShowDiscountInfo || variantOfferLabel) && (
+          <div className="flex flex-wrap items-center gap-2">
+            {shouldShowDiscountInfo && (
+              <span className="rounded-full bg-primary-soft px-3 py-1 text-base font-semibold text-primary md:text-sm">
+                Ahorra {formatPrice(discountAmount)}
+              </span>
+            )}
+            {variantOfferLabel && (
+              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-3 py-1 text-base font-semibold text-primary md:text-sm">
+                {variantQty >= 12 ? "🔥 " : "⭐ "}
+                {variantOfferLabel}
+              </span>
+            )}
+          </div>
         )}
         {hasVariants && (
           <div className="grid content-start gap-2 text-sm text-slate-500">
-            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-400">
+            <span className="text-base font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-sm">
               Variante
             </span>
             <div className="flex flex-wrap gap-2">
@@ -98,7 +108,7 @@ export default function ProductCard({ product, onAddToCart }) {
                 <button
                   key={item}
                   type="button"
-                  className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                  className={`rounded-full border px-4 py-2 text-[1.2rem] font-semibold transition md:text-[1.05rem] ${
                     variant === item
                       ? "border-primary/40 bg-primary-soft text-primary"
                       : "border-slate-200 bg-white text-slate-700 hover:border-primary/40 hover:text-primary"
@@ -116,7 +126,7 @@ export default function ProductCard({ product, onAddToCart }) {
             <QuantitySelector value={quantity} onChange={setQuantity} />
           )}
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-sm font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-lg font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:text-base"
             type="button"
             onClick={handleAdd}
           >
