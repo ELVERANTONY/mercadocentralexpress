@@ -9,7 +9,7 @@ export default function QuantitySelector({ value, onChange, min = 1 }) {
   };
 
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-slate-100 bg-white px-3 py-2 shadow-[0_6px_16px_rgba(15,23,42,0.06)]">
+    <div className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-100 bg-white px-3 py-2 shadow-[0_6px_16px_rgba(15,23,42,0.06)] md:justify-start">
       <button
         type="button"
         onClick={handleDecrease}
