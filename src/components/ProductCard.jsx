@@ -57,7 +57,7 @@ export default function ProductCard({ product, onAddToCart }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-[0_16px_34px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(15,23,42,0.12)]">
-      <div className="relative grid h-56 place-items-center overflow-hidden bg-[#fafafa] p-1.5 md:h-56">
+      <div className="relative grid aspect-square place-items-center overflow-hidden bg-[#fafafa] p-1.5 md:aspect-auto md:h-56">
         {selectedImage ? (
           <img
             ref={imageRef}
@@ -70,7 +70,7 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4 md:gap-2.5 md:p-5">
-        <h3 className="text-[1.5rem] font-semibold leading-tight text-slate-900 md:text-[1.45rem]">
+        <h3 className="text-[1.35rem] font-semibold leading-tight text-slate-900 md:text-[1.45rem]">
           {product.nombre}
         </h3>
         <div className="flex flex-wrap items-end gap-2">
@@ -79,19 +79,19 @@ export default function ProductCard({ product, onAddToCart }) {
               {formatPrice(compareAtPrice)}
             </p>
           )}
-          <p className="text-[2rem] font-extrabold tracking-wide text-primary md:text-[1.9rem]">
+          <p className="text-[1.82rem] font-extrabold tracking-wide text-primary md:text-[1.9rem]">
             {formatPrice(displayPrice)}
           </p>
         </div>
         {(shouldShowDiscountInfo || variantOfferLabel) && (
           <div className="flex flex-wrap items-center gap-2">
             {shouldShowDiscountInfo && (
-              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-sm font-semibold text-primary md:text-xs">
+              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-[0.9rem] font-semibold text-primary md:text-xs">
                 Ahorra {formatPrice(discountAmount)}
               </span>
             )}
             {variantOfferLabel && (
-              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-sm font-semibold text-primary md:text-xs">
+              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-[0.9rem] font-semibold text-primary md:text-xs">
                 {variantQty >= 12 ? "🔥 " : "⭐ "}
                 {variantOfferLabel}
               </span>
@@ -100,7 +100,7 @@ export default function ProductCard({ product, onAddToCart }) {
         )}
         {hasVariants && (
           <div className="grid content-start gap-2 text-sm text-slate-500">
-            <span className="text-[0.95rem] font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-xs">
+            <span className="text-[0.88rem] font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-xs">
               Variante
             </span>
             <div className="flex flex-wrap gap-2">
@@ -108,7 +108,7 @@ export default function ProductCard({ product, onAddToCart }) {
                 <button
                   key={item}
                   type="button"
-                  className={`rounded-full border px-4 py-2 text-[1rem] font-semibold transition md:text-[0.95rem] ${
+                  className={`rounded-full border px-4 py-2 text-[0.95rem] font-semibold transition md:text-[0.95rem] ${
                     variant === item
                       ? "border-primary/40 bg-primary-soft text-primary"
                       : "border-slate-200 bg-white text-slate-700 hover:border-primary/40 hover:text-primary"
@@ -126,7 +126,7 @@ export default function ProductCard({ product, onAddToCart }) {
             <QuantitySelector value={quantity} onChange={setQuantity} />
           )}
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-[1.1rem] font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:text-sm"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-[1rem] font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:text-sm"
             type="button"
             onClick={handleAdd}
           >
