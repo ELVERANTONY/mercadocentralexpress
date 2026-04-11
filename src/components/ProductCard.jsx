@@ -59,7 +59,7 @@ export default function ProductCard({ product, onAddToCart }) {
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-[0_16px_34px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(15,23,42,0.12)]">
-      <div className="relative grid h-[78vw] min-h-[300px] max-h-[360px] place-items-center overflow-hidden bg-[#fafafa] p-0.5 md:h-56 md:min-h-0 md:max-h-none">
+      <div className="relative grid h-[78vw] min-h-[300px] max-h-[360px] place-items-center overflow-hidden bg-[#fafafa] p-0.5 md:h-[18.75rem] md:min-h-0 md:max-h-none lg:h-[19.5rem]">
         {selectedImage ? (
           <img
             ref={imageRef}

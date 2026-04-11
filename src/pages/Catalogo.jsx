@@ -43,8 +43,8 @@ const hardcodedProducts = [
     },
     variantCompareAtPrices: {
       "x3 UND": 48,
-      "x6 UND": 72,
-      "x12 UND": 120,
+      "x6 UND": 76,
+      "x12 UND": 152,
     },
     variantImages: {
       "x3 UND": bolsasVacioX3Img,
@@ -73,7 +73,7 @@ const hardcodedProducts = [
     variantCompareAtPrices: {
       "x3 UND": 60,
       "x6 UND": 90,
-      "x12 UND": 150,
+      "x12 UND": 180,
     },
     variantImages: {
       "x3 UND": bolsasVacioX3Img,
@@ -85,7 +85,7 @@ const hardcodedProducts = [
   {
     id: "demo-4",
     nombre: "Bolsa al vacío 80 x 110 cm",
-    precio: 30.0,
+    precio: 49.0,
     variantes: ["x3 UND", "x6 UND", "x12 UND"],
     allowQuantity: false,
     unitPrice: 10,
@@ -95,14 +95,14 @@ const hardcodedProducts = [
       "x12 UND": 12,
     },
     variantPrices: {
-      "x3 UND": 30,
-      "x6 UND": 55,
-      "x12 UND": 98,
+      "x3 UND": 49,
+      "x6 UND": 78,
+      "x12 UND": 136,
     },
     variantCompareAtPrices: {
       "x3 UND": 45,
-      "x6 UND": 80,
-      "x12 UND": 130,
+      "x6 UND": 97.9,
+      "x12 UND": 195.9,
     },
     variantImages: {
       "x3 UND": bolsasVacioX3Img,
@@ -130,8 +130,8 @@ const hardcodedProducts = [
     },
     variantCompareAtPrices: {
       "x3 UND": 70,
-      "x6 UND": 110,
-      "x12 UND": 180,
+      "x6 UND": 103.9,
+      "x12 UND": 207.9,
     },
     variantImages: {
       "x3 UND": bolsasCamisasX3Img,
