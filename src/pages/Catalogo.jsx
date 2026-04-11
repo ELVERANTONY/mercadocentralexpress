@@ -16,15 +16,6 @@ const CART_STORAGE_KEY = "mce_cart_v1";
 
 const hardcodedProducts = [
   {
-    id: "demo-1",
-    nombre: "Pack de bolsas al vacío",
-    precio: 79.0,
-    disableDiscount: true,
-    variantes: ["Pack"],
-    allowQuantity: true,
-    imagen: bolsasPackImg,
-  },
-  {
     id: "demo-2",
     nombre: "Bolsa al vacío 60 x 80 cm",
     precio: 38.0,
@@ -139,6 +130,15 @@ const hardcodedProducts = [
       "x12 UND": bolsasCamisasX12Img,
     },
     imagen: bolsasCamisasX3Img,
+  },
+  {
+    id: "demo-1",
+    nombre: "Pack de bolsas al vacío",
+    precio: 79.0,
+    disableDiscount: true,
+    variantes: ["Pack"],
+    allowQuantity: true,
+    imagen: bolsasPackImg,
   },
 ];
 
