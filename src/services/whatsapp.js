@@ -6,24 +6,30 @@ const formatter = new Intl.NumberFormat("es-PE", {
 
 export const formatPrice = (value) => formatter.format(value);
 
-export const buildWhatsAppMessage = (cart, total, options = {}) => {
-  const { itemCount = 0 } = options;
-  const separator = "--------------------";
+const buildUnitLabel = (item) => {
+  const variantMatch = String(item.variante || "").match(/x\s*(\d+)\s*und/i);
+  if (variantMatch) {
+    return `${variantMatch[1]} und`;
+  }
+  return `${item.cantidad} und`;
+};
+
+export const buildWhatsAppMessage = (cart, total) => {
   const lines = [
     "*Pedido nuevo*",
-    separator,
-    `Items: ${itemCount}`,
+    "",
+    "Hola, quiero pedir:",
     "",
     ...cart.map(
       (item, index) =>
-        `${index + 1}. ${item.nombre} (${item.variante}) x${
-          item.cantidad
-        } - *${formatPrice(item.subtotal)}*`
+        `${index + 1}. ${item.nombre} (${buildUnitLabel(item)}) - *${formatPrice(
+          item.subtotal
+        )}*`
     ),
-    separator,
-    `Subtotal: *${formatPrice(total)}*`,
-    `Total: *${formatPrice(total)}*`,
-  ].filter(Boolean);
+    "",
+    `*Total: ${formatPrice(total)}*`,
+  ];
+
   return lines.join("\n");
 };
 

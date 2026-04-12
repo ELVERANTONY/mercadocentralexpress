@@ -100,7 +100,7 @@ export default function Cart({
           onClick={onCheckout}
           disabled={cart.length === 0}
         >
-          Realizar pedido por WhatsApp
+          Pedir por whatsapp
         </button>
       </div>
     </aside>
