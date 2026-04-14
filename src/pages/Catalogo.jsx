@@ -341,8 +341,8 @@ export default function Catalogo() {
           cartOpen ? "hidden md:block" : ""
         }`}
       >
-        <header className="mb-4 flex flex-col items-start justify-between gap-4 rounded-[20px] border border-slate-100 bg-white px-6 py-4 shadow-card sm:flex-row sm:items-center">
-        <div className="flex items-center gap-3">
+        <header className="mb-4 flex items-center justify-between gap-3 rounded-[20px] border border-slate-100 bg-white px-4 py-3 shadow-card sm:px-6 sm:py-4">
+        <div className="min-w-0 flex items-center gap-3">
           <img
             className="h-12 w-12 rounded-full border-2 border-primary bg-white object-cover"
             src={logo}
@@ -357,7 +357,7 @@ export default function Catalogo() {
             </p>
           </div>
         </div>
-        <div className="flex w-full items-center justify-end gap-3 sm:w-auto">
+        <div className="flex items-center justify-end gap-3">
           <button
             ref={cartButtonRef}
             className={`inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary ${
@@ -411,22 +411,45 @@ export default function Catalogo() {
                 <h2 className="text-[1.9rem] font-semibold leading-none text-slate-900 md:text-2xl">
                   Bolsas al vacío
                 </h2>
-                <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-                  Hasta -75% volumen
+                <span className="mobile-volume-chip rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
+                  Hasta <span className="volume-blink">-75%</span> volumen
                 </span>
               </div>
               <p className="text-xs font-medium text-slate-500 md:text-xs">
                 Aviso: El color de la bolsa es referencial.
               </p>
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
-              <span className="rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)] animate-soft-pop">
+
+            <div className="md:hidden overflow-hidden">
+              <div className="mobile-chip-marquee">
+                {["Oferta limitada", "Envío rápido", "Stock inmediato", "Oferta limitada", "Envío rápido", "Stock inmediato"].map((chip, index) => (
+                  <span
+                    key={`${chip}-${index}`}
+                    className="mobile-chip-item rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600"
+                  >
+                    {chip}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden md:flex flex-wrap items-center gap-2 justify-end">
+              <span
+                className="chip-drop chip-live rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)]"
+                style={{ "--chip-delay": "0ms" }}
+              >
                 Oferta limitada
               </span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]">
+              <span
+                className="chip-drop chip-live rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]"
+                style={{ "--chip-delay": "90ms" }}
+              >
                 Envío rápido
               </span>
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]">
+              <span
+                className="chip-drop chip-live rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]"
+                style={{ "--chip-delay": "180ms" }}
+              >
                 Stock inmediato
               </span>
             </div>

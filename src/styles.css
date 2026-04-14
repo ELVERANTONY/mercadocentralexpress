@@ -123,3 +123,100 @@
   }
 
 }
+
+@layer utilities {
+  @keyframes chip-drop {
+    0% {
+      transform: translateY(-26px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes mobile-chip-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes volume-chip-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 rgba(171, 38, 34, 0);
+    }
+    45% {
+      transform: scale(1.06);
+      box-shadow: 0 10px 24px rgba(171, 38, 34, 0.18);
+    }
+  }
+
+  @keyframes volume-blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.45;
+    }
+  }
+
+  .chip-drop {
+    animation: chip-drop 0.62s cubic-bezier(0.18, 0.85, 0.2, 1)
+      var(--chip-delay, 0ms) both;
+  }
+
+  .mobile-chip-marquee {
+    display: inline-flex;
+    min-width: max-content;
+    gap: 0.5rem;
+    animation: mobile-chip-marquee 15s linear infinite;
+  }
+
+  .mobile-chip-item {
+    flex: 0 0 auto;
+  }
+
+  .mobile-volume-chip {
+    animation: volume-chip-pulse 2.6s ease-in-out infinite;
+  }
+
+  .volume-blink {
+    display: inline-block;
+    animation: volume-blink 1.15s steps(2, end) infinite;
+  }
+}
+
+@layer utilities {
+  @keyframes chip-float-loop {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  @keyframes chip-glow-loop {
+    0%,
+    100% {
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+    }
+    50% {
+      box-shadow: 0 10px 22px rgba(171, 38, 34, 0.14);
+    }
+  }
+
+  .chip-live {
+    animation:
+      chip-float-loop 2.8s ease-in-out var(--chip-delay, 0ms) infinite,
+      chip-glow-loop 2.8s ease-in-out var(--chip-delay, 0ms) infinite;
+  }
+}
