@@ -405,21 +405,21 @@ export default function Catalogo() {
         </section>
       ) : (
         <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="col-span-full mb-1 grid gap-2 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-            <div className="grid gap-1">
-              <div className="flex flex-wrap items-center gap-3">
-                <h2 className="text-2xl font-semibold text-slate-900">
-                  Colección Destacada
+          <div className="col-span-full mb-1 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
+            <div className="grid gap-1 rounded-2xl border border-slate-100 bg-white/80 px-4 py-3 text-center shadow-[0_8px_18px_rgba(15,23,42,0.06)] md:rounded-none md:border-0 md:bg-transparent md:p-0 md:text-left md:shadow-none">
+              <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start md:gap-3">
+                <h2 className="text-[1.9rem] font-semibold leading-none text-slate-900 md:text-2xl">
+                  Bolsas al vacío
                 </h2>
                 <span className="rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
                   Hasta -75% volumen
                 </span>
               </div>
-              <p className="text-xs font-medium text-slate-500">
+              <p className="text-xs font-medium text-slate-500 md:text-xs">
                 Aviso: El color de la bolsa es referencial.
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2 justify-start md:justify-end">
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-end">
               <span className="rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)] animate-soft-pop">
                 Oferta limitada
               </span>
