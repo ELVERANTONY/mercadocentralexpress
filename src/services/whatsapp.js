@@ -6,6 +6,12 @@ const formatter = new Intl.NumberFormat("es-PE", {
 
 export const formatPrice = (value) => formatter.format(value);
 
+const generateOrderId = () => {
+  const timePart = Date.now().toString(36).slice(-4).toUpperCase();
+  const randomPart = Math.random().toString(36).slice(2, 4).toUpperCase();
+  return `MCE-${timePart}${randomPart}`;
+};
+
 const buildUnitLabel = (item) => {
   const variantMatch = String(item.variante || "").match(/x\s*(\d+)\s*und/i);
   if (variantMatch) {
@@ -14,8 +20,13 @@ const buildUnitLabel = (item) => {
   return `${item.cantidad} und`;
 };
 
-export const buildWhatsAppMessage = (cart, total) => {
+export const buildWhatsAppMessage = (cart, total, options = {}) => {
+  const { landingName = "Bolsas al vacío", orderId } = options;
+  const finalOrderId = orderId || generateOrderId();
+
   const lines = [
+    `*Pedido ID: ${finalOrderId} · ${landingName}*`,
+    "",
     "*Pedido nuevo*",
     "",
     "Hola, quiero pedir:",
