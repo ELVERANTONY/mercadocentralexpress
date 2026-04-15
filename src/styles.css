@@ -378,9 +378,27 @@
 
   /* ── Animations ── */
   @keyframes premium-shimmer {
-    0% { left: -100%; }
-    20% { left: 150%; }
-    100% { left: 150%; }
+    0% { transform: translateX(-100%) rotate(25deg); opacity: 0; }
+    20% { opacity: 0.5; }
+    50% { transform: translateX(100%) rotate(25deg); opacity: 0; }
+    100% { transform: translateX(100%) rotate(25deg); opacity: 0; }
+  }
+
+  .shimmer-btn::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -100%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    transform: rotate(25deg);
+    animation: premium-shimmer 4s infinite ease-in-out;
   }
 
   @keyframes premium-icon-float {
@@ -404,5 +422,23 @@
   @keyframes chip-pop-in {
     0% { transform: scale(0.9) translateY(8px); opacity: 0; }
     100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(171, 38, 34, 0.15);
+  }
+
+  .price-symbol {
+    font-size: 0.55em;
+    vertical-align: super;
+    margin-right: 2px;
+    font-weight: 700;
+  }
+
+  .price-cents {
+    font-size: 0.45em;
+    vertical-align: super;
+    margin-left: 1px;
+    font-weight: 800;
   }
 }

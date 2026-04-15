@@ -410,7 +410,7 @@ export default function Catalogo() {
             <div className="px-1 md:rounded-[20px] md:border md:border-white/50 md:bg-white/40 md:p-5 md:shadow-sm md:backdrop-blur-sm">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 {/* Left Side: Title & Badge - Above the sliding chips */}
-                <div className="flex flex-col items-start gap-1.5 relative z-10 bg-white/10 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-0 pr-4">
+                <div className="flex flex-col items-start gap-1.5 relative z-10 bg-white/10 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-0 pr-2">
                   <div className="flex flex-row items-center flex-wrap gap-2.5 md:gap-4">
                     <h2 className="text-[20px] font-bold tracking-tight text-slate-900 md:text-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 bg-clip-text text-transparent">
                       Bolsas al vacío
@@ -419,13 +419,10 @@ export default function Catalogo() {
                       Hasta -75% volumen
                     </span>
                   </div>
-                  <p className="text-[14px] font-medium text-slate-500/80 md:text-sm">
-                    El color de la bolsa es referencial
-                  </p>
                 </div>
 
                 {/* Right Side: Desktop chips (integrated marquee) - Slides behind title */}
-                <div className="hidden md:block flex-1 max-w-[850px] desktop-marquee-wrapper ml-[-100px] relative z-0">
+                <div className="hidden md:block flex-1 max-w-[950px] desktop-marquee-wrapper ml-[-180px] relative z-0">
                   <div className="marquee-container flex gap-10 w-max">
                     {[1, 2].map((loop) => (
                       <div key={loop} className="flex gap-4">
@@ -442,10 +439,28 @@ export default function Catalogo() {
                           Envío rápido
                         </span>
                         <span className="desktop-benefit-chip border-slate-200 text-slate-600">
+                          <svg className="w-4 h-4 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>
+                          </svg>
+                          Calidad Premium
+                        </span>
+                        <span className="desktop-benefit-chip border-slate-200 text-slate-600">
                           <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
                           </svg>
                           Stock inmediato
+                        </span>
+                        <span className="desktop-benefit-chip border-slate-200 text-slate-600">
+                          <svg className="w-4 h-4 text-teal-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+                          </svg>
+                          100% Reutilizables
+                        </span>
+                        <span className="desktop-benefit-chip border-slate-200 text-slate-600">
+                          <svg className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                          </svg>
+                          Protección Total
                         </span>
                       </div>
                     ))}
@@ -493,6 +508,7 @@ export default function Catalogo() {
               </div>
             ))}
           </section>
+
           <div className="hidden md:block md:sticky md:top-28 md:z-10 md:self-start md:max-h-[calc(100vh-180px)] md:overflow-auto">
             <Cart
               cart={cart}
@@ -506,6 +522,7 @@ export default function Catalogo() {
               summaryRef={desktopSummaryRef}
             />
           </div>
+
           {cartOpen && (
             <Cart
               cart={cart}
@@ -526,6 +543,7 @@ export default function Catalogo() {
           />
         </div>
       )}
+
       <div className="pointer-events-none fixed inset-0 z-[70] overflow-hidden">
         {flyingItems.map((item) => (
           <img
