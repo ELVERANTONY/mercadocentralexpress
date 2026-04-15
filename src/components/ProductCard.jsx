@@ -108,35 +108,35 @@ export default function ProductCard({ product, onAddToCart }) {
       <div className="flex flex-1 flex-col p-5 md:p-6">
         {/* Product Title */}
         <div className="mb-2">
-          <h3 className="text-[17px] font-black leading-tight text-slate-900 md:text-[20px] tracking-tighter">
+          <h3 className="text-[20px] font-black leading-tight text-slate-900 md:text-[22px] tracking-tighter text-left">
             {product.nombre}
           </h3>
         </div>
 
         {/* Dynamic Pricing */}
-        <div className="flex items-baseline gap-2 mb-4">
-          <p className="text-[30px] md:text-[38px] font-black tracking-tighter text-primary">
+        <div className="flex items-baseline justify-start gap-2 mb-4">
+          <div className="text-[36px] md:text-[42px] font-black tracking-tighter text-primary leading-none">
             {renderPremiumPrice(displayPrice)}
-          </p>
+          </div>
           {shouldShowDiscountInfo && (
-            <p className="text-[14px] md:text-[17px] font-bold text-slate-300 line-through decoration-slate-200">
+            <p className="text-[15px] md:text-[18px] font-bold text-slate-300 line-through decoration-slate-200 opacity-60">
               {formatPrice(compareAtPrice)}
             </p>
           )}
         </div>
 
-        {/* Refined Variant Selection - Centered if only one */}
+        {/* Refined Variant Selection - Centered on Mobile per request */}
         {hasVariants && (
           <div className="mb-6">
-            <div className={`flex flex-wrap gap-2 ${product.variantes.length === 1 ? "justify-center" : "justify-start"}`}>
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
               {product.variantes.map((item) => (
                 <button
                   key={item}
                   type="button"
-                  className={`rounded-full px-3 py-1.5 md:px-4 md:py-1.5 text-[11px] md:text-[12px] font-black transition-all duration-300 ${
+                  className={`rounded-full px-5 py-2 md:px-4 md:py-1.5 text-[12px] md:text-[13px] font-black transition-all duration-300 ${
                     variant === item
-                      ? "bg-slate-900 text-white shadow-lg scale-105"
-                      : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                      ? "bg-slate-900 text-white shadow-xl scale-105"
+                      : "bg-slate-50 text-slate-400 hover:bg-slate-100 border border-slate-100/50"
                   }`}
                   onClick={() => setVariant(item)}
                 >
