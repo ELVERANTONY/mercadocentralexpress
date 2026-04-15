@@ -1,4 +1,4 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Cart from "../components/Cart.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import { buildWhatsAppMessage, openWhatsApp } from "../services/whatsapp.js";
@@ -150,6 +150,9 @@ export default function Catalogo() {
   const cartButtonRef = useRef(null);
   const desktopCartRef = useRef(null);
   const desktopSummaryRef = useRef(null);
+  const featureCarouselRef = useRef(null);
+
+  // Auto-play timer removed in favor of CSS marquee for better performance and smoothness
 
   useEffect(() => {
     try {
@@ -334,67 +337,64 @@ export default function Catalogo() {
   };
 
   return (
-    <div className="mx-auto max-w-[1400px] px-3 pb-12 pt-4">
+    <div className="min-h-screen bg-mesh mx-auto max-w-[1400px] px-3 pb-12 pt-4 transition-colors duration-500">
 
       <div
-        className={`sticky top-0 z-40 bg-[#f2f2f2] pt-0 ${
+        className={`sticky top-0 z-40 bg-[#f2f2f2] md:bg-transparent pt-0 ${
           cartOpen ? "hidden md:block" : ""
         }`}
       >
-        <header className="mb-4 flex items-center justify-between gap-3 rounded-[20px] border border-slate-100 bg-white px-4 py-3 shadow-card sm:px-6 sm:py-4">
-        <div className="min-w-0 flex items-center gap-3">
-          <img
-            className="h-12 w-12 rounded-full border-2 border-primary bg-white object-cover"
-            src={logo}
-            alt="Mercado Central Express"
-          />
-          <div>
-            <h1 className="text-xl font-semibold text-slate-900">
-              Mercado Central Express
-            </h1>
-            <p className="text-sm font-medium text-slate-600">
-              Más espacio, menos volumen
-            </p>
+        {/* Header: Responsive style (Flat on Mobile, Card on PC) */}
+        <header className="sticky top-0 z-50 mb-4 flex items-center justify-between gap-3 bg-white px-4 py-2 shadow-sm -mx-3 md:mx-0 md:mb-6 md:rounded-[20px] md:border md:border-slate-100 md:bg-white md:px-6 md:py-4 md:shadow-card">
+          <div className="flex items-center gap-3">
+            <img
+              className="h-10 w-10 md:h-12 md:w-12 rounded-full border-2 border-primary bg-white object-cover"
+              src={logo}
+              alt="Mercado Central Express"
+            />
+            <div>
+              <h1 className="text-lg font-bold leading-tight text-slate-900 md:text-xl">
+                Mercado Central Express
+              </h1>
+              <p className="text-[11px] font-medium text-slate-500 md:text-sm">
+                Más espacio, menos volumen
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="flex items-center justify-end gap-3">
-          <button
-            ref={cartButtonRef}
-            className={`inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-primary transition hover:border-primary ${
-              hasCartItems ? "ring-2 ring-primary/30" : ""
-            }`}
-            onClick={() => {
-              if (window.matchMedia("(max-width: 767px)").matches) {
-                setCartOpen(true);
-              }
-            }}
-            aria-label="Abrir carrito"
-          >
-            <svg
-              className={`h-6 w-6 ${hasCartItems ? "cart-pop" : ""} ${
-                isCartBumpActive ? "cart-bump" : ""
-              }`}
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
+
+          <div className="flex items-center">
+            <button
+              ref={cartButtonRef}
+              className="relative flex h-11 w-11 items-center justify-center rounded-full bg-[#f1f3f5] transition hover:bg-slate-200 md:h-auto md:w-auto md:bg-transparent"
+              onClick={() => {
+                if (window.matchMedia("(max-width: 767px)").matches) {
+                  setCartOpen(true);
+                }
+              }}
+              aria-label="Abrir carrito"
             >
-              <circle cx="9" cy="21" r="1" />
-              <circle cx="20" cy="21" r="1" />
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-            </svg>
-              <span
-                className={`ml-3 inline-flex min-w-[32px] items-center justify-center rounded-full bg-primary-soft px-2 py-1 text-sm font-semibold text-primary ${
-                  hasCartItems ? "badge-pulse" : ""
-                } ${isCartBumpActive ? "cart-bump" : ""}`}
+              <svg
+                className={`h-5 w-5 text-slate-700 md:h-6 md:w-6 ${hasCartItems ? "cart-pop" : ""} ${
+                  isCartBumpActive ? "cart-bump" : ""
+                }`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                {cart.length}
-              </span>
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+              {hasCartItems && (
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white shadow-sm md:static md:ml-2 md:h-auto md:w-auto md:bg-primary-soft md:px-2 md:py-0.5 md:text-primary">
+                  {cartItemsCount}
+                </span>
+              )}
             </button>
-        </div>
+          </div>
         </header>
       </div>
 
@@ -405,53 +405,81 @@ export default function Catalogo() {
         </section>
       ) : (
         <div className="grid items-start gap-6 md:grid-cols-[minmax(0,1fr)_320px] lg:grid-cols-[minmax(0,1fr)_360px] xl:grid-cols-[minmax(0,1fr)_420px]">
-          <div className="col-span-full mb-1 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
-            <div className="grid gap-1 rounded-2xl border border-slate-100 bg-white/80 px-4 py-3 text-center shadow-[0_8px_18px_rgba(15,23,42,0.06)] md:rounded-none md:border-0 md:bg-transparent md:p-0 md:text-left md:shadow-none">
-              <div className="flex flex-wrap items-center justify-center gap-2 md:justify-start md:gap-3">
-                <h2 className="text-[1.9rem] font-semibold leading-none text-slate-900 md:text-2xl">
-                  Bolsas al vacío
-                </h2>
-                <span className="mobile-volume-chip rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary">
-                  Hasta <span className="volume-blink">-75%</span> volumen
-                </span>
+          <div className="col-span-full mb-4 grid gap-5">
+            {/* Headline section: Premium Badge style - Optimized for PC/Mobile */}
+            <div className="px-1 md:rounded-[20px] md:border md:border-white/50 md:bg-white/40 md:p-5 md:shadow-sm md:backdrop-blur-sm">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                {/* Left Side: Title & Badge - Above the sliding chips */}
+                <div className="flex flex-col items-start gap-1.5 relative z-10 bg-white/10 md:bg-transparent backdrop-blur-[2px] md:backdrop-blur-0 pr-4">
+                  <div className="flex flex-row items-center flex-wrap gap-2.5 md:gap-4">
+                    <h2 className="text-[20px] font-bold tracking-tight text-slate-900 md:text-2xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-600 bg-clip-text text-transparent">
+                      Bolsas al vacío
+                    </h2>
+                    <span className="headline-chip-red">
+                      Hasta -75% volumen
+                    </span>
+                  </div>
+                  <p className="text-[14px] font-medium text-slate-500/80 md:text-sm">
+                    El color de la bolsa es referencial
+                  </p>
+                </div>
+
+                {/* Right Side: Desktop chips (integrated marquee) - Slides behind title */}
+                <div className="hidden md:block flex-1 max-w-[850px] desktop-marquee-wrapper ml-[-100px] relative z-0">
+                  <div className="marquee-container flex gap-10 w-max">
+                    {[1, 2].map((loop) => (
+                      <div key={loop} className="flex gap-4">
+                        <span className="desktop-benefit-chip border-primary/20 text-slate-600">
+                          <svg className="w-4 h-4 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.435-4.5.5-5 1.488 1.442 3.5 3.242 3.5 5.5s-1.5 4.5-3.5 4.5c-1.25 0-1.5-1-1.5-1Z"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>
+                          </svg>
+                          Oferta limitada
+                        </span>
+                        <span className="desktop-benefit-chip border-slate-200 text-slate-600">
+                          <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="1" y="3" width="15" height="13"/><polyline points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                          </svg>
+                          Envío rápido
+                        </span>
+                        <span className="desktop-benefit-chip border-slate-200 text-slate-600">
+                          <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+                          </svg>
+                          Stock inmediato
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <p className="text-xs font-medium text-slate-500 md:text-xs">
-                Aviso: El color de la bolsa es referencial.
-              </p>
             </div>
 
-            <div className="md:hidden overflow-hidden">
-              <div className="mobile-chip-marquee">
-                {["Oferta limitada", "Envío rápido", "Stock inmediato", "Oferta limitada", "Envío rápido", "Stock inmediato"].map((chip, index) => (
-                  <span
-                    key={`${chip}-${index}`}
-                    className="mobile-chip-item rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600"
-                  >
-                    {chip}
-                  </span>
+            {/* Premium Infinite Marquee for mobile */}
+            <div className="md:hidden marquee-wrapper -mx-3 py-1">
+              <div className="marquee-container px-3">
+                {[1, 2].map((i) => (
+                  <div key={i} className="flex gap-3">
+                    <span className="mobile-chip-colored mobile-chip-green">
+                      <svg className="w-4 h-4 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="1" y="3" width="15" height="13"/><polyline points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                      </svg>
+                      Envío rápido
+                    </span>
+                    <span className="mobile-chip-colored mobile-chip-blue">
+                      <svg className="w-4 h-4 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>
+                      </svg>
+                      Stock inmediato
+                    </span>
+                    <span className="mobile-chip-colored mobile-chip-orange text-slate-600">
+                      <svg className="w-4 h-4 text-orange-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.435-4.5.5-5 1.488 1.442 3.5 3.242 3.5 5.5s-1.5 4.5-3.5 4.5c-1.25 0-1.5-1-1.5-1Z"/><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/>
+                      </svg>
+                      Oferta limitada
+                    </span>
+                  </div>
                 ))}
               </div>
-            </div>
-
-            <div className="hidden md:flex flex-wrap items-center gap-2 justify-end">
-              <span
-                className="chip-drop chip-live rounded-full border border-primary/30 bg-white px-3 py-1 text-xs font-semibold text-primary shadow-[0_6px_14px_rgba(171,38,34,0.12)] transition duration-200 hover:scale-[1.04] hover:border-primary/60 hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.22)]"
-                style={{ "--chip-delay": "0ms" }}
-              >
-                Oferta limitada
-              </span>
-              <span
-                className="chip-drop chip-live rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]"
-                style={{ "--chip-delay": "90ms" }}
-              >
-                Envío rápido
-              </span>
-              <span
-                className="chip-drop chip-live rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-semibold text-slate-600 transition duration-200 hover:scale-[1.04] hover:border-primary/40 hover:text-primary hover:bg-primary-soft hover:shadow-[0_12px_20px_rgba(171,38,34,0.18)]"
-                style={{ "--chip-delay": "180ms" }}
-              >
-                Stock inmediato
-              </span>
             </div>
           </div>
           <section className="grid items-stretch gap-5 sm:grid-cols-2 xl:grid-cols-3">

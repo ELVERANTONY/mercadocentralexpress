@@ -1,4 +1,4 @@
-﻿import { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import QuantitySelector from "./QuantitySelector.jsx";
 import { formatPrice } from "../services/whatsapp.js";
 
@@ -58,8 +58,8 @@ export default function ProductCard({ product, onAddToCart }) {
   };
 
   return (
-    <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-slate-100 bg-white shadow-[0_16px_34px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_44px_rgba(15,23,42,0.12)]">
-      <div className="relative grid h-[78vw] min-h-[300px] max-h-[360px] place-items-center overflow-hidden bg-[#fafafa] p-0.5 md:h-[18.75rem] md:min-h-0 md:max-h-none lg:h-[19.5rem]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-[22px] border border-white/50 bg-white shadow-premium transition-all duration-500 hover:-translate-y-1 md:hover:-translate-y-2 shadow-premium-hover">
+      <div className="relative grid h-[78vw] min-h-[300px] max-h-[360px] place-items-center overflow-hidden bg-gradient-to-b from-slate-50 to-white p-4 md:p-2 md:h-[16rem] lg:h-[18rem]">
         {selectedImage ? (
           <img
             ref={imageRef}
@@ -71,29 +71,29 @@ export default function ProductCard({ product, onAddToCart }) {
           <div className="font-medium text-slate-400">Sin imagen</div>
         )}
       </div>
-      <div className="flex flex-1 flex-col gap-1.5 p-3.5 md:gap-2.5 md:p-5">
-        <h3 className="text-[1.26rem] font-semibold leading-tight text-slate-900 md:text-[1.28rem]">
+      <div className="flex flex-1 flex-col gap-1.5 p-3.5 md:gap-2 md:p-4">
+        <h3 className="text-[20px] font-bold leading-tight text-slate-800 md:text-[21px] tracking-tight">
           {product.nombre}
         </h3>
-        <div className="flex flex-wrap items-end gap-2">
+        <div className="flex flex-wrap items-baseline gap-2">
           {shouldShowDiscountInfo && (
-            <p className="text-base font-semibold text-slate-400 line-through md:text-[0.95rem]">
+            <p className="text-[15px] font-medium text-slate-400 line-through decoration-slate-300">
               {formatPrice(compareAtPrice)}
             </p>
           )}
-          <p className="text-[1.72rem] font-extrabold tracking-wide text-primary md:text-[1.72rem]">
+          <p className="text-[32px] font-black tracking-tighter text-primary">
             {formatPrice(displayPrice)}
           </p>
         </div>
         {(shouldShowDiscountInfo || variantOfferLabel) && (
           <div className="flex flex-wrap items-center gap-2">
             {shouldShowDiscountInfo && (
-              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-[0.74rem]">
+              <span className="rounded-full bg-primary-soft px-2.5 py-1 text-[13px] font-bold text-primary">
                 Ahorra {formatPrice(discountAmount)}
               </span>
             )}
             {variantOfferLabel && (
-              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-[0.85rem] font-semibold text-primary md:text-[0.74rem]">
+              <span className="w-fit rounded-full border border-primary/30 bg-primary-soft px-2.5 py-1 text-[13px] font-bold text-primary">
                 {variantQty >= 12 ? "🔥 " : "⭐ "}
                 {variantOfferLabel}
               </span>
@@ -108,19 +108,19 @@ export default function ProductCard({ product, onAddToCart }) {
                 : ""
             }`}
           >
-            <div className="grid content-start gap-1.5">
-              <span className="text-[0.82rem] font-semibold uppercase tracking-[0.12em] text-slate-400 md:text-[0.72rem]">
-                Variante
+            <div className="grid content-start gap-2">
+              <span className="text-[12px] font-bold uppercase tracking-widest text-slate-400">
+                Seleccionar Variante
               </span>
               <div className="flex flex-wrap gap-2">
                 {product.variantes.map((item) => (
                   <button
                     key={item}
                     type="button"
-                    className={`rounded-full border px-4 py-2 text-[0.9rem] font-semibold transition md:px-3.5 md:py-1.5 md:text-[0.82rem] ${
+                    className={`rounded-xl border px-4 py-2 text-[13px] font-bold transition-all duration-300 ${
                       variant === item
-                        ? "border-primary/40 bg-primary-soft text-primary"
-                        : "border-slate-200 bg-white text-slate-700 hover:border-primary/40 hover:text-primary"
+                        ? "border-primary bg-primary text-white shadow-md shadow-primary/20 scale-[1.02]"
+                        : "border-slate-100 bg-slate-50 text-slate-600 hover:border-slate-300 hover:bg-white"
                     }`}
                     onClick={() => setVariant(item)}
                   >
@@ -149,7 +149,7 @@ export default function ProductCard({ product, onAddToCart }) {
             </div>
           )}
           <button
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-5 py-3 text-[0.95rem] font-semibold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:translate-y-0 md:py-2.5 md:text-[0.9rem]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-primary-dark px-6 py-3 md:py-2 text-[15px] font-bold text-white shadow-[0_10px_20px_rgba(171,38,34,0.25)] transition-all hover:-translate-y-0.5 hover:shadow-[0_16px_28px_rgba(171,38,34,0.3)] active:scale-95"
             type="button"
             onClick={handleAdd}
           >
