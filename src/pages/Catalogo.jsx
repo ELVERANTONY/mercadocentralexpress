@@ -509,7 +509,7 @@ export default function Catalogo() {
             ))}
           </section>
 
-          <div className="hidden md:block md:sticky md:top-28 md:z-10 md:self-start md:max-h-[calc(100vh-180px)] md:overflow-auto">
+          <div className="hidden md:block md:sticky md:top-28 md:z-10 md:self-start">
             <Cart
               cart={cart}
               total={cartTotal}
